@@ -26,8 +26,8 @@ const CheckoutForm = () => {
     // STRIPE STUFF
     const [succeeded, setSucceeded] = useState(false);
     const [error, setError] = useState(null);
-    const [processing, setProcessing] = useState("");
-    const [disabled, setDisabled] = useState(true);
+    const [processing, setProcessing] = useState<string | boolean>("");
+    const [disabled, setDisabled] = useState<boolean | string>(true);
     const [clientSecret, setClientSecret] = useState("");
     const stripe = useStripe();
     const elements = useElements();
@@ -118,7 +118,7 @@ const CheckoutForm = () => {
                     onChange={handleChange}
                 />
                 <button
-                    disabled={processing || disabled || succeeded}
+                    disabled={Boolean(processing || disabled || succeeded)}
                     id="submit"
                 >
                     <span id="button-text">

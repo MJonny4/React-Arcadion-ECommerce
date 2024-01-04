@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import  { useState } from "react";
 import styled from "styled-components";
 
@@ -13,7 +12,7 @@ const ProductImages = ({ images = [{ url: "" }] }) => {
                     return (
                         <img
                             src={image.url}
-                            alt={image.filename}
+                            alt={image.url}
                             key={index}
                             onClick={() => setMain(images[index])}
                             className={`${image.url === main.url ? "active" : null}`}

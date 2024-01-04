@@ -30,7 +30,7 @@ const initialState = {
     },
 };
 
-const FilterContext = React.createContext();
+const FilterContext = React.createContext(null);
 
 import PropTypes from "prop-types";
 
@@ -61,7 +61,7 @@ export const FilterProvider = ({ children }) => {
     };
 
     const updateFilters = (e) => {
-        let name = e.target.name;
+        const name = e.target.name;
         let value = e.target.value;
 
         if (name === "category") {

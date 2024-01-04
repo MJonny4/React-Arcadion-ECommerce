@@ -16,7 +16,7 @@ const initialState = {
     shipping_fee: 534,
 };
 
-const CartContext = React.createContext();
+const CartContext = React.createContext(null);
 
 import PropTypes from "prop-types";
 

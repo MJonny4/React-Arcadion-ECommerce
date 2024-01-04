@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import PropTypes from "prop-types";
 
-export const UserContext = React.createContext();
+export const UserContext = React.createContext(null);
 
 export const UserProvider = ({ children }) => {
     const { loginWithRedirect, logout, user } = useAuth0();

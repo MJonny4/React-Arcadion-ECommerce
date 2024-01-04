@@ -1,13 +1,17 @@
-/* eslint-disable react/prop-types */
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const PageHero = ({ title, product }) => {
+const PageHero = ({ title, product }: { title: string; product?: boolean }) => {
     return (
         <Wrapper>
-            <div className="section-center">
+            <div className='section-center'>
                 <h3>
-                    <b><Link to="/">Home</Link>{product && <Link to="/products">〵 Products</Link>}〵 {title}</b>
+                    <b>
+                        <Link to='/'>Home</Link>
+                        {product && (
+                            <Link to='/products'>〵 Products</Link>
+                        )}〵 {title}
+                    </b>
                 </h3>
             </div>
         </Wrapper>

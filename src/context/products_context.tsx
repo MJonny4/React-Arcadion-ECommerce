@@ -25,7 +25,7 @@ const initialState = {
     single_product: {},
 };
 
-const ProductsContext = React.createContext();
+const ProductsContext = React.createContext(null);
 
 import PropTypes from "prop-types";
 
