@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useFilterContext } from '../context/filter_context';
-import { formatPrice } from '../utils/helpers';
+import { formatPrice, getUniqueValues } from '../utils/helpers';
 import { FaCheck } from 'react-icons/fa';
 
 const Filters = () => {
@@ -20,12 +20,9 @@ const Filters = () => {
         all_products,
     } = useFilterContext();
 
-    const categories = all_products.map((p) => p.category);
-    // const categories: string[] = getUniqueValues(all_products, "category");
-    // const companies = getUniqueValues(all_products, 'company');
-    const companies = all_products.map((p) => p.company);
-    // const colors = getUniqueValues(all_products, 'colors');
-    const colors = all_products.map((p) => p.colors);
+    const categories = getUniqueValues(all_products, "category");
+    const companies = getUniqueValues(all_products, 'company');
+    const colors = getUniqueValues(all_products, 'colors');
 
     return (
         <Wrapper>
