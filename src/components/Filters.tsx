@@ -106,7 +106,7 @@ const Filters = () => {
                                         key={index}
                                         name='color'
                                         style={{
-                                            background: c,
+                                            background: (c as string),
                                             border:
                                                 c === '#fff'
                                                     ? '1px solid black'
