@@ -49,7 +49,7 @@ const Filters = () => {
                                         name='category'
                                         type='button'
                                         className={`${
-                                            category === c.toLowerCase()
+                                            category === (c as string).toLowerCase()
                                                 ? 'active'
                                                 : null
                                         }`}
