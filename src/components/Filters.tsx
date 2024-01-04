@@ -1,4 +1,5 @@
 // @ts-ignore
+import React from 'react';
 import styled from 'styled-components';
 import { useFilterContext } from '../context/filter_context';
 import { formatPrice, getUniqueValues } from '../utils/helpers';
@@ -56,7 +57,7 @@ const Filters = () => {
                                                 : null
                                         }`}
                                     >
-                                        {c}
+                                        {c as React.ReactNode}
                                     </button>
                                 );
                             })}
@@ -72,8 +73,8 @@ const Filters = () => {
                         >
                             {companies.map((c, index) => {
                                 return (
-                                    <option key={index} value={c}>
-                                        {c}
+                                    <option key={index} value={c as string}>
+                                        {c as React.ReactNode}
                                     </option>
                                 );
                             })}
