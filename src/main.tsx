@@ -1,27 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
-import './index.css';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
 
-import {
-    ProductsProvider,
-    FilterProvider,
-    CartProvider,
-    UserProvider,
-} from './context';
-import { Auth0Provider } from '@auth0/auth0-react';
+import { ClerkProvider } from '@clerk/clerk-react'
+import { ProductsProvider, FilterProvider, CartProvider, UserProvider } from './context'
 
-const domain = import.meta.env.VITE_APP_AUTH_DOMAIN;
-const clientId = import.meta.env.VITE_APP_AUTH_CLIENT_ID;
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+if (!PUBLISHABLE_KEY) {
+    throw new Error('Missing Publishable Key')
+}
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <Auth0Provider
-            domain={domain}
-            clientId={clientId}
-            cacheLocation='localstorage'
-            authorizationParams={{ redirect_uri: window.location.origin }}
-        >
+        <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
             <UserProvider>
                 <ProductsProvider>
                     <FilterProvider>
@@ -31,6 +24,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                     </FilterProvider>
                 </ProductsProvider>
             </UserProvider>
-        </Auth0Provider>
-    </React.StrictMode>
-);
+        </ClerkProvider>
+    </React.StrictMode>,
+)

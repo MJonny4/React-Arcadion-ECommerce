@@ -1,16 +1,18 @@
-import styled from "styled-components";
-import { useCartContext } from "../context/cart_context";
-import { useUserContext } from "../context/user_context";
-import { formatPrice } from "../utils/helpers";
-import { Link } from "react-router-dom";
+import styled from 'styled-components'
+import { useCartContext } from '../context/cart_context'
+import { useUserContext } from '../context/user_context'
+import { formatPrice } from '../utils/helpers'
+import { Link } from 'react-router-dom'
+import { FaUserPlus } from 'react-icons/fa6'
+import { SignInButton } from '@clerk/clerk-react'
 
 const CartTotals = () => {
-    const { total_amount, shipping_fee } = useCartContext();
-    const { myUser, loginWithRedirect } = useUserContext();
+    const { total_amount, shipping_fee } = useCartContext()
+    const { myUser, loginWithRedirect } = useUserContext()
 
     return (
         <Wrapper>
-            <div className="">
+            <div className=''>
                 <article>
                     <h5>
                         subtotal : <span>{formatPrice(total_amount)}</span>
@@ -20,27 +22,26 @@ const CartTotals = () => {
                     </p>
                     <hr />
                     <h4>
-                        order total :{" "}
-                        <span>{formatPrice(total_amount + shipping_fee)}</span>
+                        order total : <span>{formatPrice(total_amount + shipping_fee)}</span>
                     </h4>
                 </article>
                 {myUser ? (
-                    <Link to="/checkout" className="btn">
+                    <Link to='/checkout' className='btn'>
                         proceed to checkout
                     </Link>
                 ) : (
-                    <button
-                        type="button"
-                        className="btn"
-                        onClick={loginWithRedirect}
-                    >
-                        login
-                    </button>
+                    <SignInButton
+                        children={
+                            <div className='btn'>
+                                Login <FaUserPlus />
+                            </div>
+                        }
+                    />
                 )}
             </div>
         </Wrapper>
-    );
-};
+    )
+}
 
 const Wrapper = styled.section`
     margin-top: 3rem;
@@ -71,7 +72,11 @@ const Wrapper = styled.section`
         margin-top: 1rem;
         text-align: center;
         font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
     }
-`;
+`
 
-export default CartTotals;
+export default CartTotals

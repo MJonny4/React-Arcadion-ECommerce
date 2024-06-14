@@ -1,18 +1,17 @@
 /* eslint-disable react-refresh/only-export-components */
-import axios from "axios";
-import React, { useContext, useEffect, useReducer } from "react";
-import reducer from "../reducers/products_reducer";
-import { products_url as url } from "../utils/constants";
+import React, { useContext, useEffect, useReducer } from 'react'
 import {
-    SIDEBAR_OPEN,
-    SIDEBAR_CLOSE,
     GET_PRODUCTS_BEGIN,
-    GET_PRODUCTS_SUCCESS,
     GET_PRODUCTS_ERROR,
+    GET_PRODUCTS_SUCCESS,
     GET_SINGLE_PRODUCT_BEGIN,
-    GET_SINGLE_PRODUCT_SUCCESS,
     GET_SINGLE_PRODUCT_ERROR,
-} from "../actions";
+    GET_SINGLE_PRODUCT_SUCCESS,
+    SIDEBAR_CLOSE,
+    SIDEBAR_OPEN,
+} from '../actions'
+import reducer from '../reducers/products_reducer'
+import { customFetch } from '../utils/customFetch'
 
 const initialState = {
     isSidebarOpen: false,
@@ -23,66 +22,71 @@ const initialState = {
     single_product_loading: false,
     single_product_error: false,
     single_product: {},
-};
+}
 
-const ProductsContext = React.createContext(null);
-
-import PropTypes from "prop-types";
+const ProductsContext = React.createContext(null)
 
 export const ProductsProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, initialState)
 
     const openSidebar = () => {
-        dispatch({ type: SIDEBAR_OPEN });
-    };
+        dispatch({ type: SIDEBAR_OPEN })
+    }
 
     const closeSidebar = () => {
-        dispatch({ type: SIDEBAR_CLOSE });
-    };
+        dispatch({ type: SIDEBAR_CLOSE })
+    }
 
-    const fetchProducts = async (url) => {
-        dispatch({ type: GET_PRODUCTS_BEGIN });
+    const fetchProducts = async () => {
+        dispatch({ type: GET_PRODUCTS_BEGIN })
         try {
-            const response = await axios.get(url);
-            const products = response.data;
-            dispatch({ type: GET_PRODUCTS_SUCCESS, payload: products });
+            const response = await customFetch.get('/products')
+            const products = response.data?.records
+            const returningData = products.map((product) => {
+                const { id, fields } = product
+                return {
+                    id,
+                    image: fields.images[0].url,
+                    ...fields,
+                }
+            })
+            dispatch({ type: GET_PRODUCTS_SUCCESS, payload: returningData })
         } catch (error) {
-            dispatch({ type: GET_PRODUCTS_ERROR });
+            dispatch({ type: GET_PRODUCTS_ERROR })
         }
-    };
+    }
 
-    const fetchSingleProduct = async (url) => {
-        dispatch({ type: GET_SINGLE_PRODUCT_BEGIN });
+    const fetchSingleProduct = async (id: string) => {
+        dispatch({ type: GET_SINGLE_PRODUCT_BEGIN })
         try {
-            const response = await axios.get(url);
-            const singleProduct = response.data;
+            const response = await customFetch.get(`/products/${id}`)
+            const singleProduct = response.data
+            const returningData = {
+                id: singleProduct.id,
+                image: singleProduct.fields.images[0].url,
+                ...singleProduct.fields,
+            }
             dispatch({
                 type: GET_SINGLE_PRODUCT_SUCCESS,
-                payload: singleProduct,
-            });
+                payload: returningData,
+            })
         } catch (error) {
-            dispatch({ type: GET_SINGLE_PRODUCT_ERROR });
+            dispatch({ type: GET_SINGLE_PRODUCT_ERROR })
         }
-    };
+    }
 
     useEffect(() => {
-        fetchProducts(url);
-    }, []);
+        fetchProducts()
+    }, [])
 
     return (
-        <ProductsContext.Provider
-            value={{ ...state, openSidebar, closeSidebar, fetchSingleProduct }}
-        >
+        <ProductsContext.Provider value={{ ...state, openSidebar, closeSidebar, fetchSingleProduct }}>
             {children}
         </ProductsContext.Provider>
-    );
-};
-
-ProductsProvider.propTypes = {
-    children: PropTypes.node.isRequired,
-};
+    )
+}
 
 // make sure use
 export const useProductsContext = () => {
-    return useContext(ProductsContext);
-};
+    return useContext(ProductsContext)
+}

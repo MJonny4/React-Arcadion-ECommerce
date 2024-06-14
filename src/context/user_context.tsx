@@ -1,29 +1,19 @@
-/* eslint-disable react-refresh/only-export-components */
-import React, { useContext, useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import PropTypes from "prop-types";
+import { useUser } from '@clerk/clerk-react'
+import React, { useContext, useEffect, useState } from 'react'
 
-export const UserContext = React.createContext(null);
+export const UserContext = React.createContext(null)
 
 export const UserProvider = ({ children }) => {
-    const { loginWithRedirect, logout, user } = useAuth0();
-    const [myUser, setMyUser] = useState(null);
+    const { isLoaded, isSignedIn, user } = useUser()
+    const [myUser, setMyUser] = useState(null)
 
     useEffect(() => {
-        setMyUser(user);
-    }, [user]);
+        setMyUser(user)
+    }, [user])
 
-    return (
-        <UserContext.Provider value={{ loginWithRedirect, logout, myUser }}>
-            {children}
-        </UserContext.Provider>
-    );
-};
-
-UserProvider.propTypes = {
-    children: PropTypes.node.isRequired,
-};
+    return <UserContext.Provider value={{ isSignedIn, isLoaded, myUser }}>{children}</UserContext.Provider>
+}
 
 export const useUserContext = () => {
-    return useContext(UserContext);
-};
+    return useContext(UserContext)
+}

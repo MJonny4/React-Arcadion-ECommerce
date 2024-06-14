@@ -1,20 +1,14 @@
-import { Navigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
-
-import PropTypes from 'prop-types';
+import { useUser } from '@clerk/clerk-react'
+import { Navigate } from 'react-router-dom'
 
 const PrivateRoute = ({ children }) => {
-        const { user } = useAuth0();
+    const { user } = useUser()
 
-        if (!user) {
-                return <Navigate to="/"></Navigate>;
-        }
+    if (!user) {
+        return <Navigate to='/'></Navigate>
+    }
 
-        return <>{children}</>;
-};
+    return <>{children}</>
+}
 
-PrivateRoute.propTypes = {
-    children: PropTypes.node.isRequired,
-};
-
-export default PrivateRoute;
+export default PrivateRoute

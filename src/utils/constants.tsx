@@ -37,7 +37,3 @@ export const services = [
         text: "Arcadion: Pioneering gaming since 2005. We're your ultimate destination for arcade, VR, and classic & modern consoles. Level up with us!",
     },
 ];
-
-export const products_url = "/.netlify/functions/products";
-
-export const single_product_url = `/.netlify/functions/single-product?id=`;

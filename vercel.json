@@ -1,0 +1,14 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/:match*",
+            "destination": "/api/:match*"
+        }
+    ],
+    "functions": {
+        "api/create-payment-intent.ts": {
+            "maxDuration": 30,
+            "memory": 512
+        }
+    }
+}
